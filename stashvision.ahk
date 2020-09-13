@@ -71,7 +71,7 @@ ParsePositions(output, sets) {
 RunIndexServer(ByRef pid) {
     IniRead, poeSessionId, %configFile%, General, SessionId
     IniRead, accountName, %configFile%, General, AccountName
-    IniRead, leagueName, %configFile%, General, LeagueName, Harvest
+    IniRead, leagueName, %configFile%, General, LeagueName, %League%
     IniRead, tabIndex, %configFile%, Stash, DumpTabIndex, 0
     if (poeSessionId == "ERROR") || (accountName == "ERROR") {
         MsgBox, 48, stashvision error, SessionId or AccountName missing from config file
@@ -129,7 +129,7 @@ GetStashPosition(ByRef stashX, ByRef stashY, ByRef stashWidth, ByRef stashHeight
     stashX := Round(poeWidth * stashXroot)
     stashY := Round(poeHeight * stashYroot)
     stashWidth := Round(poeWidth * 0.33)
-    stashHeight := poeHeight - stashY - (380/1440*poeHeight)
+    stashHeight := mystashHeight
 }
 
 HighlightChaosRecipe() {
@@ -174,11 +174,11 @@ HighlightChaosRecipe() {
 HighlightItem(stashX, stashY, stashWidth, stashHeight, hwnd, graphics, hdc, width, height, x, y, isQuadTab, borderColor) {
     WinGetPos, poeX, poeY, poeWidth, poeHeight, Path of Exile
     if isQuadTab {
-        rectWidth := quad_squareWRoot * poeHeight
-        rectHeight := quad_squareHRoot * poeHeight
+        rectWidth := rectWidthQ
+        rectHeight := rectHeightQ
     } else {
-        rectWidth := tab_squareWRoot * poeHeight
-        rectHeight := tab_squareHRoot * poeHeight
+        rectWidth := rectWidthN
+        rectHeight := rectHeightN
     }
     pen := Gdip_CreatePen(borderColor, 2)
     Gdip_DrawRectangle(graphics, pen, rectWidth * x, rectHeight * y, rectWidth * width, rectHeight * height)
